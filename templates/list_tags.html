@@ -1,0 +1,15 @@
+    {% extends "base.html" %}
+
+{% block content %}
+    <h1>List Tags</h1>
+    <ul>
+        {% for tag in tags %}
+            <li>{{ tag.tag_name }}</li>
+            <a href="{% url 'update_tag' tag.id %}">Update</a>
+            <a href="{% url 'delete_tag' tag.id %}">Delete</a>
+        {% endfor %}
+    </ul>
+{% endblock content %}
+    
+
+

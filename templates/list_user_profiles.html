@@ -1,0 +1,15 @@
+    {% extends "base.html" %}
+
+{% block content %}
+    <h1>List User Profiles</h1>
+    <ul>
+        {% for user_profile in user_profiles %}
+            <li>{{ user_profile.user.name }}</li>
+            <a href="{% url 'update_user_profile' user_profile.id %}">Update</a>
+            <a href="{% url 'delete_user_profile' user_profile.id %}">Delete</a>
+        {% endfor %}
+    </ul>
+{% endblock content %}
+    
+
+
