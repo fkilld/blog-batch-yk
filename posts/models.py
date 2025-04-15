@@ -1,15 +1,9 @@
 from django.db import models
-
+from users.models import User
 # Create your models here.
 
 
-class User(models.Model):
-    name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=15)
 
-    def __str__(self):
-        return self.name
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

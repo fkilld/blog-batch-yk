@@ -1,0 +1,36 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+   <form method="post" class="container mt-4 p-4 border rounded shadow-sm bg-light">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control" placeholder="Enter phone number">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,9 +1,20 @@
 
+{% if messages %}
+  <div class="container mt-2">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Blog</a>
-    <ul class="navbar-nav">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Blog</a>
+  <ul class="navbar-nav">
+    {% if user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'create_post' %}">Create Post</a>
       </li>
@@ -11,12 +22,7 @@
         <a class="nav-link" href="{% url 'create_tag' %}">Create Tag</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'create_user' %}">Create User</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'create_user_profile' %}"
-          >Create User Profile</a
-        >
+        <a class="nav-link" href="{% url 'create_user_profile' %}">Create User Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'list_posts' %}">List Posts</a>
@@ -28,10 +34,19 @@
         <a class="nav-link" href="{% url 'list_users' %}">List Users</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'list_user_profiles' %}"
-          >List User Profiles</a
-        >
+        <a class="nav-link" href="{% url 'list_user_profiles' %}">List User Profiles</a>
       </li>
-    </ul>
-  </nav>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      </li>
+    {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'register' %}">Register</a>
+      </li>
+    {% endif %}
+  </ul>
 </nav>
+
