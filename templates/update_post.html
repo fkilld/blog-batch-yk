@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label>Title:</label>
+  <input type="text" name="title" value="{{ post.title }}" required><br>
+
+  <label>Content:</label>
+  <textarea name="content" required>{{ post.content }}</textarea><br>
+
+  <label>User:</label>
+  <select name="user" required>
+    {% for user in users %}
+      <option value="{{ user.id }}" {% if user.id == post.user.id %}selected{% endif %}>{{ user.email }}</option>
+    {% endfor %}
+  </select><br>
+
+  <label>Tags:</label>
+  <select name="tags" multiple>
+    {% for tag in tags %}
+      <option value="{{ tag.id }}" {% if tag in post.tags.all %}selected{% endif %}>{{ tag.tag_name }}</option>
+    {% endfor %}
+  </select><br>
+
+  <label>Image:</label>
+  {% if post.image %}
+    <img src="{{ post.image.url }}" width="100"><br>
+  {% endif %}
+  <input type="file" name="image"><br>
+
+  <button type="submit">Update Post</button>
+</form>
+{% endblock content %}

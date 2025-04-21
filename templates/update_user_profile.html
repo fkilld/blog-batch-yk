@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Update User Profile</h1>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label>User:</label>
+  <select name="user" required>
+    {% for user in users %}
+      <option value="{{ user.id }}" {% if user.id == user_profile.user.id %}selected{% endif %}>{{ user.email }}</option>
+    {% endfor %}
+  </select><br>
+
+  <label>Bio:</label>
+  <textarea name="bio" required>{{ user_profile.bio }}</textarea><br>
+
+  <label>Profile Picture:</label>
+  {% if user_profile.profile_picture %}
+    <img src="{{ user_profile.profile_picture.url }}" width="100"><br>
+  {% endif %}
+  <input type="file" name="profile_picture"><br>
+
+  <button type="submit">Update Profile</button>
+</form>
+
+{% endblock content %}
+

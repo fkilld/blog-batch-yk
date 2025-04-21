@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Update Tag</h1>
+
+
+
+<form method="POST">
+  {% csrf_token %}
+  <label>Tag Name:</label>
+  <input type="text" name="tag_name" value="{{ tag.tag_name }}" required><br>
+  <button type="submit">Update Tag</button>
+</form>
+{% endblock content %}

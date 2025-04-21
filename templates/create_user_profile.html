@@ -1,9 +1,21 @@
 {% extends "base.html" %} {% block content %}
 <h1>{% if form.instance.pk %}Update User Profile{% else %}Create User Profile{% endif %}</h1>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">
-    {% if form.instance.pk %}Update User Profile{% else %}Create User Profile{% endif %}
-  </button>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label>User:</label>
+  <select name="user" required>
+    {% for user in users %}
+      <option value="{{ user.id }}">{{ user.email }}</option>
+    {% endfor %}
+  </select><br>
+
+  <label>Bio:</label>
+  <textarea name="bio" required></textarea><br>
+
+  <label>Profile Picture:</label>
+  <input type="file" name="profile_picture"><br>
+
+  <button type="submit">Create Profile</button>
 </form>
+
 {% endblock content %}
