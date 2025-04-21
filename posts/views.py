@@ -6,6 +6,7 @@ from posts.models import Post, Tag
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from django.contrib import messages
 
 # Create your views here.
 
@@ -129,6 +130,7 @@ def list_posts(request):
     List all blog posts.
     
     This view handles GET requests to display a list of all blog posts.
+    
     """
     posts = Post.objects.all()  # Get all posts from the database
     return render(request, 'list_posts.html', {'posts': posts})
@@ -156,8 +158,13 @@ def update_post(request, post_id):
     
     The function collects form data including title, content, user selection,
     multiple tag selections, and an optional image upload.
+    Only the owner of the post can update it. 
     """
+    
     post = get_object_or_404(Post, id=post_id)
+    if request.user != post.user:
+        messages.error(request, "You don't have permission to update this post.")
+        return redirect('list_posts')
     if request.method == 'POST':
         # Extract form data from the POST request
         title = request.POST.get('title')
@@ -275,39 +282,65 @@ def delete_post(request, post_id):
     Delete an existing blog post.
     
     This view handles GET requests to delete a blog post.
+    Only the owner of the post can delete it.
     """
     post = get_object_or_404(Post, id=post_id)
+    
+    # Check if the current user is the owner of the post
+    if request.user != post.user:
+        messages.error(request, "You don't have permission to delete this post.")
+        return redirect('list_posts')
+    
     post.delete()
+    messages.success(request, "Post deleted successfully.")
     return redirect('list_posts')
 
 def delete_tag(request, tag_id):
     """
+    Only the owner of the tag can delete it.
     Delete an existing tag.
     
     This view handles GET requests to delete a tag.
     """
     tag = get_object_or_404(Tag, id=tag_id)
+    if request.user != tag.user:
+        messages.error(request, "You don't have permission to delete this tag.")
+        return redirect('list_tags')
+    
     tag.delete()
+    messages.success(request, "Tag deleted successfully.")
     return redirect('list_tags')
 
 def delete_user(request, user_id):
     """
+    Only the owner of the user can delete it.
     Delete an existing user.
     
     This view handles GET requests to delete a user.
     """
     user = get_object_or_404(User, id=user_id)
+    if request.user != user:
+        messages.error(request, "You don't have permission to delete this user.")
+        return redirect('list_users')
+    
     user.delete()
+    messages.success(request, "User deleted successfully.")
     return redirect('list_users')
 
 def delete_user_profile(request, user_profile_id):
     """
+    Only the owner of the user profile can delete it.
     Delete an existing user profile.
     
     This view handles GET requests to delete a user profile.
     """
     user_profile = get_object_or_404(UserProfile, id=user_profile_id)
+    if request.user != user_profile.user:
+        messages.error(request, "You don't have permission to delete this user profile.")
+        return redirect('list_user_profiles')
+    
     user_profile.delete()
+    messages.success(request, "User profile deleted successfully.")
     return redirect('list_user_profiles')
 
 
